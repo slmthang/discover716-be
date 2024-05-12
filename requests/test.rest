@@ -1,0 +1,8 @@
+
+GET http://localhost:3001/api/events
+
+###
+POST http://localhost:3001/api/events
+
+###
+DELETE http://localhost:3001/api/events
