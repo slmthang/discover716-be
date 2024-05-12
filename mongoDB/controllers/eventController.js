@@ -47,7 +47,6 @@ router.post('/events', async (request, response) => {
         // response
         response.json(event);
     } catch (err) {
-        console.log("23ERROR", err);
         response.status(500).json({error: 'Internal Server Error'});
     }
 })
@@ -60,7 +59,6 @@ router.delete('/events', async (request, response) => {
         await Event.deleteMany({});
         response.json({});
     } catch (err) {
-        console.log("23ERROR", err);
         response.status(500).json({error: 'Internal Server Error'});
     }
 })
