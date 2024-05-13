@@ -15,26 +15,31 @@ router.get('/events', async (request, response) => {
     }
 })
 
+// fetch an event by id
+router.get('/events/:eventId', async (request, response) => {
+    try {
+
+
+        // evenId
+        const eventId = request.params.eventId;
+        // fectch event by using id
+        const event = await Event.findById(eventId);
+
+        response.json(event);
+    } catch (err) {
+        response.status(500).json({error: 'Internal Server Errror'});
+    }
+})
+
 
 // post an event
 router.post('/events', async (request, response) => {
     try {
-        // sample event object
-        // const newEventObj = {
-        //     title: "Cherry Blossom 200",
-        //     date: "05/14/2024",
-        //     startTime: "04:00 P.M",
-        //     endTIme: "08:00 P.M",
-        //     address: "2655 South Park Ave, Buffalo, NY 14218",
-        //     website: "https://www.buffalogardens.com/products/open-art-nights",
-        //     thumbnail: "thumbnail.jpg",
-        //     description: "this is a short description",
-        //     email: "helpdesk@gmail.com",
-        //     phone: "716-274-7482",
-        //     goingCount: 0
-        // }
 
+        // newEventObj
         const newEventObj = request.body;
+
+        console.log("newEvent: ", newEventObj);
 
         // create a new event document
         const event = new Event(newEventObj);
@@ -62,6 +67,8 @@ router.delete('/events', async (request, response) => {
         response.status(500).json({error: 'Internal Server Error'});
     }
 })
+
+
 
 module.exports = {
     eventController: router

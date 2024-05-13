@@ -11,10 +11,7 @@ const url = process.env.DB_CONN;
 
 // connect to DB
 const connectDB = () => {
-  db.connect(url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
+  db.connect(url)
     .then (() => {
       console.log("Connected to MongoDB");
     })
