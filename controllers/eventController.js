@@ -2,8 +2,12 @@
 // imports
 const express = require('express');
 const router = express.Router();
-const {Event} = require('../models/Event');
-
+const {Event} = require('../mongoDB/models/Event');
+// multer
+const multer  = require('multer');
+const upload = multer();
+// cloudinaryController
+const cloudinaryController = require('./cloudinaryController');
 
 // fetch all events
 router.get('/events', async (request, response) => {
@@ -33,11 +37,19 @@ router.get('/events/:eventId', async (request, response) => {
 
 
 // post an event
-router.post('/events', async (request, response) => {
+router.post('/events', upload.single('thumbnail'), async (request, response) => {
     try {
 
+        console.log("FIle: ", request.file);
+
+        // upload thumbnail to cloundinary
+        cloudinaryController.singleUpload(request);
+
         // newEventObj
-        const newEventObj = request.body;
+        const newEventObj = {
+            ...request.body,
+            thumbnail: request.file.originalname
+        }
 
         console.log("newEvent: ", newEventObj);
 
@@ -52,6 +64,7 @@ router.post('/events', async (request, response) => {
         // response
         response.json(event);
     } catch (err) {
+        console.log("??: ", err);
         response.status(500).json({error: 'Internal Server Error'});
     }
 })

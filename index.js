@@ -2,8 +2,10 @@
 // imports
 const {connectDB} = require("./mongoDB/db");
 const express = require('express');
-const {eventController} = require("./mongoDB/controllers/eventController")
+const {eventController} = require("./controllers/eventController")
 const cors = require('cors');
+const cloudinaryController = require('./controllers/cloudinaryController');
+
 
 // use express
 const app = express();
