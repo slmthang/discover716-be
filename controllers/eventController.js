@@ -40,18 +40,19 @@ router.get('/events/:eventId', async (request, response) => {
 router.post('/events', upload.single('thumbnail'), async (request, response) => {
     try {
 
-        console.log("FIle: ", request.file);
-
         // upload thumbnail to cloundinary
-        cloudinaryController.singleUpload(request);
+        let x = await cloudinaryController.singleUpload(request);
+
+        // get url for image
+        let url = await cloudinaryController.getUrl("discover716/" + request.file.originalname);
 
         // newEventObj
         const newEventObj = {
             ...request.body,
-            thumbnail: request.file.originalname
+            thumbnail: url
         }
 
-        console.log("newEvent: ", newEventObj);
+        console.log("newEventObj: ", newEventObj);
 
         // create a new event document
         const event = new Event(newEventObj);
@@ -63,6 +64,8 @@ router.post('/events', upload.single('thumbnail'), async (request, response) => 
 
         // response
         response.json(event);
+
+        console.log("END");
     } catch (err) {
         console.log("??: ", err);
         response.status(500).json({error: 'Internal Server Error'});
