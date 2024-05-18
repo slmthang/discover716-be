@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 // Event Model - mongodb
-const {Event} = require('../mongoDB/models/event');
+const {Hotel} = require('../mongoDB/models/hotel');
 
 // multer
 const multer  = require('multer');
@@ -12,36 +12,36 @@ const upload = multer();
 const cloudinaryController = require('./cloudinaryController');
 
 // fetch all events
-router.get('/events', async (request, response) => {
+router.get('/hotels', async (request, response) => {
     try {
-        const events = await Event.find({});
-        response.json(events);
+        const hotels = await Hotel.find({});
+        response.json(hotels);
     } catch (err) {
-        console.log("Event: ", err);
+        console.log("Hotel: ", err);
         response.status(500).json({error: 'Internal Server Error'});
     }
 })
 
 // fetch an event by id
-router.get('/events/:eventId', async (request, response) => {
+router.get('/hotels/:hotelId', async (request, response) => {
     try {
 
 
         // evenId
-        const eventId = request.params.eventId;
+        const hotelId = request.params.hotelId;
         // fectch event by using id
-        const event = await Event.findById(eventId);
+        const hotel = await Hotel.findById(hotelId);
 
-        response.json(event);
+        response.json(hotel);
     } catch (err) {
-        console.log("Event: ", err);
+        console.log("Hotel: ", err);
         response.status(500).json({error: 'Internal Server Errror'});
     }
 })
 
 
 // post an event
-router.post('/events', upload.single('thumbnail'), async (request, response) => {
+router.post('/hotels', upload.single('thumbnail'), async (request, response) => {
     try {
 
         // upload thumbnail to cloundinary
@@ -51,39 +51,39 @@ router.post('/events', upload.single('thumbnail'), async (request, response) => 
         let url = await cloudinaryController.getUrl("discover716/" + request.file.originalname);
 
         // newEventObj
-        const newEventObj = {
+        const newHotelObj = {
             ...request.body,
             thumbnail: url
         }
 
-        console.log("newEventObj: ", newEventObj);
+        console.log("newHotelObj: ", newHotelObj);
 
         // create a new event document
-        const event = new Event(newEventObj);
+        const hotel = new Hotel(newHotelObj);
 
         // save to db
-        event.save().then(() => {
-            console.log("an event is saved to db!");
+        hotel.save().then(() => {
+            console.log("an hotel is saved to db!");
         })
 
         // response
-        response.json(event);
+        response.json(hotel);
 
     } catch (err) {
-        console.log("Event: ", err);
+        console.log("Hotel: ", err);
         response.status(500).json({error: 'Internal Server Error'});
     }
 })
 
 
 // delete all events
-router.delete('/events', async (request, response) => {
+router.delete('/hotels', async (request, response) => {
     try {
         // delete
-        await Event.deleteMany({});
+        await Hotel.deleteMany({});
         response.json({});
     } catch (err) {
-        console.log("Event: ", err);
+        console.log("Hotel: ", err);
         response.status(500).json({error: 'Internal Server Error'});
     }
 })
@@ -91,7 +91,7 @@ router.delete('/events', async (request, response) => {
 
 
 module.exports = {
-    eventController: router
+    hotelController: router
 }
 
 

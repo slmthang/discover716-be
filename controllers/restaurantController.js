@@ -4,44 +4,45 @@ const express = require('express');
 const router = express.Router();
 
 // Event Model - mongodb
-const {Event} = require('../mongoDB/models/event');
+const {Restaurant} = require('../mongoDB/models/restaurant');
 
 // multer
 const multer  = require('multer');
 const upload = multer();
 const cloudinaryController = require('./cloudinaryController');
 
-// fetch all events
-router.get('/events', async (request, response) => {
+// fetch all restaurants
+router.get('/restaurants', async (request, response) => {
     try {
-        const events = await Event.find({});
-        response.json(events);
+        const restaurants = await Restaurant.find({});
+        response.json(restaurants);
+
     } catch (err) {
-        console.log("Event: ", err);
+        console.log("Restaurant: ", err);
         response.status(500).json({error: 'Internal Server Error'});
     }
 })
 
-// fetch an event by id
-router.get('/events/:eventId', async (request, response) => {
+// fetch by restaurant id
+router.get('/restaurants/:restaurantId', async (request, response) => {
     try {
-
-
         // evenId
-        const eventId = request.params.eventId;
-        // fectch event by using id
-        const event = await Event.findById(eventId);
+        const restaurantId = request.params.restaurantId;
 
-        response.json(event);
+        // fectch event by using id
+        const restaurant = await Restaurant.findById(restaurantId);
+
+        response.json(restaurant);
+
     } catch (err) {
-        console.log("Event: ", err);
+        console.log("Restaurant: ", err);
         response.status(500).json({error: 'Internal Server Errror'});
     }
 })
 
 
 // post an event
-router.post('/events', upload.single('thumbnail'), async (request, response) => {
+router.post('/restaurants', upload.single('thumbnail'), async (request, response) => {
     try {
 
         // upload thumbnail to cloundinary
@@ -51,39 +52,41 @@ router.post('/events', upload.single('thumbnail'), async (request, response) => 
         let url = await cloudinaryController.getUrl("discover716/" + request.file.originalname);
 
         // newEventObj
-        const newEventObj = {
+        const newRestaurantObj = {
             ...request.body,
             thumbnail: url
         }
 
-        console.log("newEventObj: ", newEventObj);
+        console.log("newRestaurantObj: ", newRestaurantObj);
 
         // create a new event document
-        const event = new Event(newEventObj);
+        const restaurant = new Restaurant(newRestaurantObj);
 
         // save to db
-        event.save().then(() => {
-            console.log("an event is saved to db!");
+        restaurant.save().then(() => {
+            console.log("an restaurant is saved to db!");
         })
 
         // response
-        response.json(event);
+        response.json(restaurant);
 
     } catch (err) {
-        console.log("Event: ", err);
+
+        console.log("Restaurant: ", err);
         response.status(500).json({error: 'Internal Server Error'});
     }
 })
 
 
 // delete all events
-router.delete('/events', async (request, response) => {
+router.delete('/restaurants', async (request, response) => {
     try {
         // delete
-        await Event.deleteMany({});
+        await Restaurant.deleteMany({});
         response.json({});
+
     } catch (err) {
-        console.log("Event: ", err);
+        console.log("Restaurant: ", err);
         response.status(500).json({error: 'Internal Server Error'});
     }
 })
@@ -91,7 +94,7 @@ router.delete('/events', async (request, response) => {
 
 
 module.exports = {
-    eventController: router
+    restaurantController: router
 }
 
 

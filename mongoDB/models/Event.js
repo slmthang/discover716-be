@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 // define schema for event
 const eventSchema = new mongoose.Schema({
-  title: String,
+  name: String,
   date: String,
   startTime: String,
   endTime: String,

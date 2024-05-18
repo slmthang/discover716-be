@@ -2,7 +2,13 @@
 // imports
 const {connectDB} = require("./mongoDB/db");
 const express = require('express');
-const {eventController} = require("./controllers/eventController")
+
+// controllers
+const {eventController} = require("./controllers/eventController");
+const {hotelController} = require("./controllers/hotelController");
+const {placesController} = require("./controllers/placeController");
+const {restaurantController} = require("./controllers/restaurantController");
+
 const cors = require('cors');
 const cloudinaryController = require('./controllers/cloudinaryController');
 
@@ -29,6 +35,9 @@ app.use(express.static('dist'));
 
 // api
 app.use('/api', eventController);
+app.use('/api', hotelController);
+app.use('/api', restaurantController);
+app.use('/api', placesController);
 
 // PORT 3001
 const PORT = process.env.PORT || 3001;
