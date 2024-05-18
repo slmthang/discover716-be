@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 // Event Model - mongodb
-const {Hotel} = require('../mongoDB/models/hotel');
+const {Hotel} = require('../mongoDB/models/hotel.js');
 
 // multer
 const multer  = require('multer');
