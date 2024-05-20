@@ -6,3 +6,37 @@ POST http://localhost:3001/api/events
 
 ###
 DELETE http://localhost:3001/api/events
+
+
+###
+GET http://localhost:3001/api/places
+
+###
+POST http://localhost:3001/api/places
+
+###
+DELETE http://localhost:3001/api/places
+
+
+
+
+###
+GET http://localhost:3001/api/restaurants
+
+###
+POST http://localhost:3001/api/restaurants
+
+###
+DELETE http://localhost:3001/api/restaurants
+
+
+
+###
+GET http://localhost:3001/api/hotels
+
+###
+POST http://localhost:3001/api/hotels
+
+###
+DELETE http://localhost:3001/api/hotels
+

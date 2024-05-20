@@ -25,8 +25,6 @@ router.get('/events', async (request, response) => {
 // fetch an event by id
 router.get('/events/:eventId', async (request, response) => {
     try {
-
-
         // evenId
         const eventId = request.params.eventId;
         // fectch event by using id

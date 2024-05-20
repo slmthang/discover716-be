@@ -2,6 +2,7 @@
 // imports
 const {connectDB} = require("./mongoDB/db");
 const express = require('express');
+const cookieSession = require('cookie-session');
 
 // controllers
 const {eventController} = require("./controllers/eventController");
@@ -10,7 +11,6 @@ const {placesController} = require("./controllers/placeController");
 const {restaurantController} = require("./controllers/restaurantController");
 
 const cors = require('cors');
-const cloudinaryController = require('./controllers/cloudinaryController');
 
 
 // use express
