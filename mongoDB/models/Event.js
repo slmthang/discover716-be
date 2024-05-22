@@ -30,7 +30,7 @@ const eventSchema = new mongoose.Schema({
   },
   thumbnail: {
     type: String,
-    default: "https://res.cloudinary.com/dxjfmwr5n/image/upload/v1716049553/discover716/error/no-image_v7nvfz.png"
+    required: true
   },
   about: {
     type: String,
@@ -38,14 +38,14 @@ const eventSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    default: "N/A"
+    default: ""
   },
   phone: {
     type: String,
-    default: "000-000-0000"
+    default: ""
   },
   goingCount: {
-    type: String,
+    type: Number,
     default: 0
   }
 })

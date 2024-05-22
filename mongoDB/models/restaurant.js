@@ -10,7 +10,7 @@ const restaurantSchema = new mongoose.Schema({
     },
     thumbnail: {
         type: String,
-        default: "https://res.cloudinary.com/dxjfmwr5n/image/upload/v1716049553/discover716/error/no-image_v7nvfz.png"
+        required: true
     },
     address: {
         type: String,
@@ -22,11 +22,11 @@ const restaurantSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
-        default: "000-000-0000"
+        default: ""
     },
     email: {
         type: String,
-        default: "N/A"
+        default: ""
     },
     about: {
         type: String,
