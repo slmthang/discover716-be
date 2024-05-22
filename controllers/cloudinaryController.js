@@ -51,7 +51,7 @@ const getUrl = async (publicId) => {
     try {
         let imageInfo = await cloudinary.api.resource(publicId);
 
-        return imageInfo.url;
+        return imageInfo.secure_url;
     } catch (err) {
         console.log("getUrl() failed: ", err);
     }
