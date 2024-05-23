@@ -75,9 +75,9 @@ router.get('/:data/info/:count/:sortBy/:sortOrder', async (request, response) =>
         const dataDB = dataType[request.params.data];
 
         // conditions
-        const count = request.params.count || 1;
-        const sortBy = request.params.sortBy || "name";
-        const sortOrder = request.params.sortOrder || "asc";
+        const count = request.params.count;
+        const sortBy = request.params.sortBy;
+        const sortOrder = request.params.sortOrder;
 
         // fetch data using the conditions
         const data = await dataDB.find({}).limit(count).sort([[sortBy, sortOrder]]);
