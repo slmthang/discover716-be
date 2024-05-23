@@ -2,13 +2,9 @@
 // imports
 const {connectDB} = require("./mongoDB/db");
 const express = require('express');
-const cookieSession = require('cookie-session');
 
-// controllers
-const {eventController} = require("./controllers/eventController");
-const {hotelController} = require("./controllers/hotelController");
-const {placesController} = require("./controllers/placeController");
-const {restaurantController} = require("./controllers/restaurantController");
+// data controller
+const {dataController} = require("./api/dataController");
 
 const cors = require('cors');
 
@@ -35,16 +31,13 @@ app.use(express.static('dist'));
 
 // root
 app.get("/", (request, response) => {
-    
+
     //  ressponse.status(200).send('OK');
     response.sendStatus(200);
 });
 
 // api
-app.use('/api', eventController);
-app.use('/api', hotelController);
-app.use('/api', restaurantController);
-app.use('/api', placesController);
+app.use('/api', dataController);
 
 // PORT 3001
 const PORT = process.env.PORT || 3001;
