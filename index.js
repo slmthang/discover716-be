@@ -33,6 +33,13 @@ app.use(express.static('dist'));
 
 /* ROUTES */
 
+// root
+app.get("/", (request, response) => {
+    
+    //  ressponse.status(200).send('OK');
+    response.sendStatus(200);
+});
+
 // api
 app.use('/api', eventController);
 app.use('/api', hotelController);
