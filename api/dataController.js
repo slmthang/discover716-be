@@ -80,7 +80,7 @@ router.get('/:data/info/:count/:sortBy/:sortOrder', async (request, response) =>
         const sortOrder = request.params.sortOrder;
 
         // fetch data using the conditions
-        const data = await dataDB.find({}).limit(count).sort([[sortBy, sortOrder]]);
+        const data = await dataDB.find({}).limit(count).sort([[sortBy, sortOrder]]).collation({ locale: 'en', strength: 2 });
 
         // send back to client
         response.json(data);
