@@ -86,15 +86,30 @@ const dataSchema2 = new mongoose.Schema({
   }
 })
 
+// define schema for hotel, place, restaurants
+const userSchema = new mongoose.Schema({
+  userName: {
+    type: String,
+    required: true
+  },
+  passwordHash: {
+    type: String,
+    required: true
+  }
+})
+
+
 // define models
 const Event = mongoose.model("events", dataSchema1);
 const Restaurant = mongoose.model("restaurants", dataSchema2);
 const Place = mongoose.model("places", dataSchema2);
 const Hotel = mongoose.model("hotels", dataSchema2);
+const User = mongoose.model("users", userSchema);
 
 module.exports = {
   Event,
   Restaurant,
   Place,
-  Hotel
+  Hotel,
+  User
 }

@@ -1,11 +1,11 @@
 
 // imports
 const express = require('express');
-const router = express.Router();
+const dataAPIRouter = express.Router();
 const cloudinaryController = require('../services/cloudinary.js');
 const multer  = require('multer');
 const models = require('../mongoDB/models.js');
-const logger = require('../utils/logger')
+const logger = require('../utils/logger.js')
 
 
 // multer
@@ -20,7 +20,7 @@ const dataType = {
 }
 
 // fetch all events
-router.get('/:data/all', async (request, response) => {
+dataAPIRouter.get('/:data/all', async (request, response) => {
 
   try {
 
@@ -46,7 +46,7 @@ router.get('/:data/all', async (request, response) => {
 
 
 // fetch an event by id
-router.get('/:data/:dataId', async (request, response) => {
+dataAPIRouter.get('/:data/:dataId', async (request, response) => {
 
   try {
 
@@ -75,7 +75,7 @@ router.get('/:data/:dataId', async (request, response) => {
 
 
 // // fetch events by conditions : type, count, sortby and sort order
-router.get('/:data/info/:count/:sortBy/:sortOrder', async (request, response) => {
+dataAPIRouter.get('/:data/info/:count/:sortBy/:sortOrder', async (request, response) => {
   try {
 
     // select database base on data param
@@ -105,7 +105,7 @@ router.get('/:data/info/:count/:sortBy/:sortOrder', async (request, response) =>
 
 
 // post an event
-router.post('/:data', upload.single('thumbnail'), async (request, response) => {
+dataAPIRouter.post('/:data', upload.single('thumbnail'), async (request, response) => {
 
   try {
 
@@ -145,7 +145,7 @@ router.post('/:data', upload.single('thumbnail'), async (request, response) => {
 
 
 // delete all events
-router.delete('/:data/all', async (request, response) => {
+dataAPIRouter.delete('/:data/all', async (request, response) => {
 
   try {
 
@@ -170,7 +170,7 @@ router.delete('/:data/all', async (request, response) => {
 
 
 // delete all events
-router.delete('/:data/:dataId', async (request, response) => {
+dataAPIRouter.delete('/:data/:dataId', async (request, response) => {
 
   try {
 
@@ -197,7 +197,7 @@ router.delete('/:data/:dataId', async (request, response) => {
 })
 
 module.exports = {
-  dataController: router
+  dataAPIRouter
 }
 
 

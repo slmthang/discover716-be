@@ -5,8 +5,8 @@ const express = require('express');
 const cors = require('cors');
 const logger = require('./utils/logger')
 const middleware = require('./utils/middleware')
-const { dataController } = require("./controllers/dataController");
-
+const { dataAPIRouter } = require("./controllers/data_api");
+const { authRouter } = require('./controllers/auth');
 
 
 // express
@@ -24,8 +24,11 @@ connectDB();
 
 // requestLogger
 app.use(middleware.requestLogger);
-// routes
-app.use('/api', dataController);
+// @routes
+// api
+app.use('/api', dataAPIRouter);
+// auth
+app.use('/auth', authRouter);
 
 // unknown endpoint
 app.use(middleware.unknownEndpoint);

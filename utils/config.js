@@ -1,12 +1,15 @@
 
 require('dotenv').config()
 
+
 const PORT = process.env.PORT;
-const DB_CONN = process.env.NODE_ENV === 'test' ? process.env.TEST_DB_CONN : process.env.DB_CONN;
+const DB_CONN = process.env.NODE_ENV === 'production' ? process.env.DB_CONN : process.env.TEST_DB_CONN;
 const CLOUDINARY_NAME = process.env.CLOUDINARY_NAME;
 const CLOUDINARY_KEY = process.env.CLOUDINARY_KEY;
 const CLOUDINARY_SECRET = process.env.CLOUDINARY_SECRET;
-const CLOUDINARY_FOLDER = process.env.NODE_ENV === 'test' ? process.env.TEST_CLOUDINARY_FOLDER : process.env.CLOUDINARY_FOLDER;
+const CLOUDINARY_FOLDER = process.env.NODE_ENV === 'production' ? process.env.CLOUDINARY_FOLDER : process.env.TEST_CLOUDINARY_FOLDER;
+
+
 
 module.exports = {
   PORT,
