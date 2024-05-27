@@ -21,7 +21,7 @@ const streamUpload = (req) => {
   return new Promise((resolve, reject) => {
     
     let stream = cloudinary.uploader.upload_stream(
-      { folder: "discover716", public_id: req.file.originalname },
+      { folder: config.CLOUDINARY_FOLDER, public_id: req.file.originalname },
       (error, result) => {
         if (result) {
           resolve(result);
