@@ -53,36 +53,36 @@ const dataSchema1 = new mongoose.Schema({
 // define schema for hotel, place, restaurants
 const dataSchema2 = new mongoose.Schema({
   name: {
-      type: String,
-      required: true
+    type: String,
+    required: true
   },
   thumbnail: {
-      type: String,
-      required: true
+    type: String,
+    required: true
   },
   address: {
-      type: String,
-      required: true
+    type: String,
+    required: true
   },
   website: {
-      type: String,
-      default: ""
+    type: String,
+    default: ""
   },
   phone: {
-      type: String,
-      default: ""
+    type: String,
+    default: ""
   },
   email: {
-      type: String,
-      default: ""
+    type: String,
+    default: ""
   },
   about: {
-      type: String,
-      default: ""
+    type: String,
+    default: ""
   },
   amenities: {
-      type: Array,
-      default: []
+    type: Array,
+    default: []
   }
 })
 
@@ -93,8 +93,8 @@ const Place = mongoose.model("places", dataSchema2);
 const Hotel = mongoose.model("hotels", dataSchema2);
 
 module.exports = {
-    Event,
-    Restaurant,
-    Place,
-    Hotel
+  Event,
+  Restaurant,
+  Place,
+  Hotel
 }
