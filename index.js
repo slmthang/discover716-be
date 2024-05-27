@@ -28,9 +28,9 @@ app.use(middleware.requestLogger);
 app.use('/api', dataController);
 
 // unknown endpoint
-app.use(utils.unknownEndpoint);
+app.use(middleware.unknownEndpoint);
 // error handler
-app.use(utils.errorHandler);
+app.use(middleware.errorHandler);
 
 
 // PORT 3001

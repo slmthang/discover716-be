@@ -5,7 +5,7 @@ const router = express.Router();
 const cloudinaryController = require('../services/cloudinary.js');
 const multer  = require('multer');
 const models = require('../mongoDB/models.js');
-const logger = require('./logger')
+const logger = require('../utils/logger')
 
 
 // multer

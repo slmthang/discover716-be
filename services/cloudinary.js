@@ -1,7 +1,7 @@
 
 // import
 const config = require('../utils/config');
-const logger = require('./logger')
+const logger = require('../utils/logger')
 
 // cloudinary
 const cloudinary = require('cloudinary').v2;
