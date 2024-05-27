@@ -3,47 +3,32 @@
 const { connectDB } = require("./mongoDB/db");
 const express = require('express');
 const cors = require('cors');
-const utils = require('./utils/utils');
+const logger = require('./utils/logger')
+const middleware = require('./utils/middleware')
+const { dataController } = require("./controllers/dataController");
 
-// data controller
-const { dataController } = require("./api/dataController");
 
-// use express
+
+// express
 const app = express();
-
-// requestLogger
-app.use(utils.requestLogger);
-
 // use cors
 app.use(cors());
-
 // express.json() & express.urlencoded()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// use static files from frontend
+app.use(express.static('dist'));
 
 // make db connection
 connectDB();
 
-
-// use static files from frontend
-app.use(express.static('dist'));
-
-
-/* ROUTES */
-
-// root
-app.get("/", (request, response) => {
-
-  //  ressponse.status(200).send('OK');
-  response.sendStatus(200);
-});
-
-// api
+// requestLogger
+app.use(middleware.requestLogger);
+// routes
 app.use('/api', dataController);
 
 // unknown endpoint
 app.use(utils.unknownEndpoint);
-
 // error handler
 app.use(utils.errorHandler);
 
@@ -52,5 +37,5 @@ app.use(utils.errorHandler);
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
-  console.log("listerning @", PORT);
+  logger.info(`Servering running on port ${PORT}...`)
 })

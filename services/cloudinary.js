@@ -1,6 +1,7 @@
 
-// use dotenv
-require('dotenv').config();
+// import
+const config = require('../utils/config');
+const logger = require('./logger')
 
 // cloudinary
 const cloudinary = require('cloudinary').v2;
@@ -9,15 +10,16 @@ const streamifier = require('streamifier');
 
 // config for cloudinary
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
-  api_key: process.env.CLOUDINARY_KEY,
-  api_secret: process.env.CLOUDINARY_SECRET
+  cloud_name: config.CLOUDINARY_NAME,
+  api_key: config.CLOUDINARY_KEY,
+  api_secret: config.CLOUDINARY_SECRET
 })
 
 
 // upload image using buffer
 const streamUpload = (req) => {
   return new Promise((resolve, reject) => {
+    
     let stream = cloudinary.uploader.upload_stream(
       { folder: "discover716", public_id: req.file.originalname },
       (error, result) => {
@@ -28,6 +30,7 @@ const streamUpload = (req) => {
         }
       }
     )
+
     streamifier.createReadStream(req.file.buffer).pipe(stream);
   })
 };
@@ -38,10 +41,10 @@ const singleUpload = async (req) => {
   try {
     let result = await streamUpload(req);
 
-    console.log("Image Uploaded to Cloudinary: ", result);
+    logger.info("Image Uploaded to Cloudinary: ", result);
 
   } catch (err) {
-    console.log("upload() inside singleUpload() failed...: ", err);
+    logger.error("singleUpload() failed : ", err);
   }
 }
 
@@ -49,11 +52,14 @@ const singleUpload = async (req) => {
 const getUrl = async (publicId) => {
 
   try {
-    let imageInfo = await cloudinary.api.resource(publicId);
 
+    let imageInfo = await cloudinary.api.resource(publicId);
     return imageInfo.secure_url;
+
   } catch (err) {
-    console.log("getUrl() failed: ", err);
+
+    logger.error("getUrl() failed: ", err);
+
   }
 }
 

@@ -2,15 +2,14 @@
 // imports
 const express = require('express');
 const router = express.Router();
-
-// models - moongoose db
+const cloudinaryController = require('../services/cloudinary.js');
+const multer  = require('multer');
 const models = require('../mongoDB/models.js');
+const logger = require('./logger')
+
 
 // multer
-const multer  = require('multer');
 const upload = multer();
-const cloudinaryController = require('../services/cloudinaryController.js');
-
 
 // store models to object using
 const dataType = {
@@ -31,16 +30,20 @@ router.get('/:data/all', async (request, response) => {
     // fetch data from database
     const data = await dataDB.find({});
 
+    // log
+    logger.info(`Fetched all data. (${request.params.data}).`)
+
     // send back data to client
     response.json(data);
 
   } catch (err) {
 
     // errors output
-    console.error("cannot fetchAll data: ", err);
+    logger.error("cannot fetchAll data: ", err);
     response.status(500).json({ error: 'Internal Server Error' });
   }
 })
+
 
 // fetch an event by id
 router.get('/:data/:dataId', async (request, response) => {
@@ -56,16 +59,20 @@ router.get('/:data/:dataId', async (request, response) => {
     // fectch event by using id
     const data = await dataDB.findById(dataId);
 
+    // log
+    logger.info(`Fetched a specific data by ID ( ${request.params.data} ).`)
+
     // send back data to client
     response.json(data);
 
   } catch (err) {
 
     // errors output
-    console.error("Cannot fetch a specific data: ", err);
+    logger.error("Cannot fetch a specific data: ", err);
     response.status(500).json({ error: 'Internal Server Errror' });
   }
 })
+
 
 // // fetch events by conditions : type, count, sortby and sort order
 router.get('/:data/info/:count/:sortBy/:sortOrder', async (request, response) => {
@@ -82,17 +89,19 @@ router.get('/:data/info/:count/:sortBy/:sortOrder', async (request, response) =>
     // fetch data using the conditions
     const data = await dataDB.find({}).limit(count).sort([[sortBy, sortOrder]]).collation({ locale: 'en', strength: 2 });
 
+    // log
+    logger.info(`Fetched a specific data by conditions ( ${request.params.data} ).`)
+
     // send back to client
     response.json(data);
 
   } catch (err) {
 
     // log errors
-    console.error("Fetching data by conditions failed: ", err);
+    logger.error("Fetching data by conditions failed: ", err);
     response.status(500).json({ error: 'Internal Server Error' });
   }
 })
-
 
 
 // post an event
@@ -120,7 +129,7 @@ router.post('/:data', upload.single('thumbnail'), async (request, response) => {
 
     // save to db
     dataDoc.save().then(() => {
-      console.log(`a record is saved to ${request.params.data} database.`);
+      logger.info(`A record is saved to ${request.params.data} database.`);
     })
 
     // response
@@ -129,7 +138,7 @@ router.post('/:data', upload.single('thumbnail'), async (request, response) => {
   } catch (err) {
 
     // log errors
-    console.error("Fail to save a record to database: ", err);
+    logger.error("Fail to save a record to database: ", err);
     response.status(500).json({ error: 'Internal Server Error' });
   }
 })
@@ -146,7 +155,7 @@ router.delete('/:data/all', async (request, response) => {
     // delete all
     dataDB.deleteMany({}).then( data => {
       // log
-      console.log(`All records are deleted from ${request.params.data} collection.`);
+      logger.info(`All records are deleted from ${request.params.data} collection.`);
     });
 
     response.json({});
@@ -154,10 +163,11 @@ router.delete('/:data/all', async (request, response) => {
   } catch (err) {
 
     // log errors
-    console.error("Attempt to delete all data in database failed: ", err);
+    logger.error("Attempt to delete all data in database failed: ", err);
     response.status(500).json({ error: 'Internal Server Error' });
   }
 })
+
 
 // delete all events
 router.delete('/:data/:dataId', async (request, response) => {
@@ -174,14 +184,14 @@ router.delete('/:data/:dataId', async (request, response) => {
     const data = await dataDB.findByIdAndDelete(dataId);
 
     // log
-    console.log(`${dataId} is deleted from ${request.params.data} collection.`);
+    logger.info(`${dataId} is deleted from ${request.params.data} collection.`);
 
     response.json(data);
 
   } catch (err) {
 
     // log errors
-    console.error("Attempt to delete specific data in database failed: ", err);
+    logger.error("Attempt to delete specific data in database failed: ", err);
     response.status(500).json({ error: 'Internal Server Error' });
   }
 })
