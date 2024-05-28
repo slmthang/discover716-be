@@ -135,15 +135,19 @@ dataAPIRouter.post('/:data', upload.single('thumbnail'), async (request, respons
     const dataDB = dataType[request.params.data];
 
     // upload thumbnail to cloundinary
-    await cloudinaryController.singleUpload(request);
+    const {public_id, secure_url} = await cloudinaryController.singleUpload(request);
 
-    // get url for image
-    let url = await cloudinaryController.getUrl("discover716/" + request.file.originalname);
+    // // public_id for cloudinary image
+    // const publicId = "discover716/" + request.file.originalname;
+
+    console.log("PublicID: ", public_id);
+    console.log("SEcureurl", secure_url);
 
     // new data object
     const newDataObject = {
       ...request.body,
-      thumbnail: url
+      thumbnail: secure_url,
+      public_id
     }
 
     // create a new event document
@@ -219,6 +223,15 @@ dataAPIRouter.delete('/:data/:dataId', async (request, response) => {
 
     // info
     const dataId = request.params.dataId;
+
+    // fetch object
+    const object = await dataDB.findById(dataId).exec();
+
+    console.log("Object: ", object);
+    console.log("ID: ", object.public_id);
+
+    // delete thumbnail
+    await cloudinaryController.deleteImage(object.public_id);
 
     // delete
     const data = await dataDB.findByIdAndDelete(dataId);
