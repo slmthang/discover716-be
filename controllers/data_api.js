@@ -5,7 +5,19 @@ const dataAPIRouter = express.Router();
 const cloudinaryController = require('../services/cloudinary.js');
 const multer  = require('multer');
 const models = require('../mongoDB/models.js');
-const logger = require('../utils/logger.js')
+const logger = require('../utils/logger.js');
+const jwt = require('jsonwebtoken');
+
+
+const getTokenFrom = (request) => {
+  const authorization = request.get('authorization');
+
+  if (authorization && authorization.startsWith('Bearer ')) {
+      return authorization.replace('Bearer ', '');
+  }
+
+  return null;
+}
 
 
 // multer
@@ -109,6 +121,16 @@ dataAPIRouter.post('/:data', upload.single('thumbnail'), async (request, respons
 
   try {
 
+    // get decodedToken
+    const decodedToken = jwt.verify(getTokenFrom(request), 'ashawng');
+
+    console.log("DTOKEN: ", decodedToken);
+
+    if (!decodedToken.id) {
+
+      return response.status(401).json({error: 'Submission failed. User not authorized. log in properly again.'})
+    }
+
     // select database base on data param
     const dataDB = dataType[request.params.data];
 
@@ -149,6 +171,14 @@ dataAPIRouter.delete('/:data/all', async (request, response) => {
 
   try {
 
+    // get decodedToken
+    const decodedToken = jwt.verify(getTokenFrom(request), 'ashawng');
+
+    if (!decodedToken.id) {
+
+      return response.status(401).json({error: 'Submission failed. User not authorized. log in properly again.'})
+    }
+
     // select database base on data param
     const dataDB = dataType[request.params.data];
 
@@ -171,8 +201,18 @@ dataAPIRouter.delete('/:data/all', async (request, response) => {
 
 // delete all events
 dataAPIRouter.delete('/:data/:dataId', async (request, response) => {
+  
 
   try {
+
+
+    // get decodedToken
+    const decodedToken = jwt.verify(getTokenFrom(request), 'ashawng');
+
+    if (!decodedToken.id) {
+
+      return response.status(401).json({error: 'Submission failed. User not authorized. log in properly again.'})
+    }
 
     // select database base on data param
     const dataDB = dataType[request.params.data];

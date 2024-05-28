@@ -2,7 +2,6 @@
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { response } = require('express');
 const authRouter = require('express').Router();
 const User = require('../mongoDB/models').User;
 const logger = require('../utils/logger');
@@ -11,11 +10,14 @@ const logger = require('../utils/logger');
 authRouter.post('/login', async (req, res) => {
 
     // obtain userName & password
-    const {userName, password} = req.body;
+    const {username, password} = req.body;
+
+    console.log(username);
 
     // fetch user from db using userName
-    const user = await User.findOne({userName});
+    const user = await User.findOne({username});
 
+    
     // check password
     const passwordCorrect = user ? await bcrypt.compare(password, user.passwordHash) : null;
 
@@ -32,7 +34,7 @@ authRouter.post('/login', async (req, res) => {
 
     // create a userToken using userName and user._id
     const userToken = {
-        userName: user.userName,
+        username: user.username,
         id: user._id
     }
 
@@ -43,7 +45,7 @@ authRouter.post('/login', async (req, res) => {
     // response with 200
     res
         .status(200)
-        .send({ token, username: user.userName})
+        .send({ token, loggedIn: "true"})
 
 })
 
