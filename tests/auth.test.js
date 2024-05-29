@@ -30,8 +30,8 @@ beforeEach(async () => {
 test.only('user authentication process check.', async () => {
 
     const user = {
-        username: 'Sanji',
-        password: "456"
+        username: 'Luffy',
+        password: "123"
     }
 
     await api

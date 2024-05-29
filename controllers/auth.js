@@ -17,9 +17,15 @@ authRouter.post('/login', async (req, res) => {
     // fetch user from db using userName
     const user = await User.findOne({username});
 
+
+    console.log(password);
+    console.log(user.passwordHash);
+
     
     // check password
     const passwordCorrect = user ? await bcrypt.compare(password, user.passwordHash) : null;
+
+    console.log(passwordCorrect);
 
     // if user or passwordCorrect fails return error
     if (!(user && passwordCorrect)) {

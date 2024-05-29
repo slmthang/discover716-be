@@ -12,7 +12,7 @@ const { authRouter } = require('./controllers/auth');
 // express
 const app = express();
 // use cors
-app.use(cors());
+app.use(cors({origin: true}));
 // express.json() & express.urlencoded()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

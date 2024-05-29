@@ -3,24 +3,18 @@ const User = require('../mongoDB/models').User;
 const bcrypt = require('bcrypt');
 
 // using 5
-const pw = ["123", "456"];
+const pw = ["123"];
 
 
 const initUsers = async () => {
 
     pw[0] = await bcrypt.hash(pw[0], 5);
-    pw[1] = await bcrypt.hash(pw[1], 5);
 
     return [
         {
             username: "Luffy",
             passwordHash: pw[0]
-        },
-
-        {
-            username: "Sanji",
-            passwordHash: pw[1]
-        },
+        }
     ]
 }
 
