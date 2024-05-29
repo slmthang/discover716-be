@@ -7,6 +7,7 @@ const multer  = require('multer');
 const models = require('../mongoDB/models.js');
 const logger = require('../utils/logger.js');
 const jwt = require('jsonwebtoken');
+const config = require('../utils/config.js');
 
 
 const getTokenFrom = (request) => {
@@ -122,7 +123,7 @@ dataAPIRouter.post('/:data', upload.single('thumbnail'), async (request, respons
   try {
 
     // get decodedToken
-    const decodedToken = jwt.verify(getTokenFrom(request), 'ashawng');
+    const decodedToken = jwt.verify(getTokenFrom(request), config.JWT_SECRET);
 
     console.log("DTOKEN: ", decodedToken);
 
@@ -176,7 +177,7 @@ dataAPIRouter.delete('/:data/all', async (request, response) => {
   try {
 
     // get decodedToken
-    const decodedToken = jwt.verify(getTokenFrom(request), 'ashawng');
+    const decodedToken = jwt.verify(getTokenFrom(request), config.JWT_SECRET);
 
     if (!decodedToken.id) {
 
@@ -211,7 +212,7 @@ dataAPIRouter.delete('/:data/:dataId', async (request, response) => {
 
 
     // get decodedToken
-    const decodedToken = jwt.verify(getTokenFrom(request), 'ashawng');
+    const decodedToken = jwt.verify(getTokenFrom(request), config.JWT_SECRET);
 
     if (!decodedToken.id) {
 
