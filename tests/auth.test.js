@@ -30,7 +30,7 @@ beforeEach(async () => {
 test.only('user authentication process check.', async () => {
 
     const user = {
-        userName: 'Sanji',
+        username: 'Sanji',
         password: "456"
     }
 

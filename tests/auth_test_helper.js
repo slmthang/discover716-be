@@ -13,12 +13,12 @@ const initUsers = async () => {
 
     return [
         {
-            userName: "Luffy",
+            username: "Luffy",
             passwordHash: pw[0]
         },
 
         {
-            userName: "Sanji",
+            username: "Sanji",
             passwordHash: pw[1]
         },
     ]

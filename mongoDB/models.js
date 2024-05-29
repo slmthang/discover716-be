@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 // define schema for event
 const dataSchema1 = new mongoose.Schema({
+
   name: {
     type: String,
     required: true
@@ -47,6 +48,10 @@ const dataSchema1 = new mongoose.Schema({
   goingCount: {
     type: Number,
     default: 0
+  },
+  public_id: {
+    type: String,
+    required: true
   }
 })
 
@@ -83,12 +88,16 @@ const dataSchema2 = new mongoose.Schema({
   amenities: {
     type: Array,
     default: []
+  },
+  public_id: {
+    type: String,
+    required: true
   }
 })
 
 // define schema for hotel, place, restaurants
 const userSchema = new mongoose.Schema({
-  userName: {
+  username: {
     type: String,
     required: true
   },

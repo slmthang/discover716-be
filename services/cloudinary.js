@@ -39,9 +39,9 @@ const streamUpload = (req) => {
 const singleUpload = async (req) => {
 
   try {
-    let result = await streamUpload(req);
 
-    logger.info("Image Uploaded to Cloudinary: ", result);
+    // return object from cloudinary submission
+    return await streamUpload(req);
 
   } catch (err) {
     logger.error("singleUpload() failed : ", err);
@@ -63,8 +63,21 @@ const getUrl = async (publicId) => {
   }
 }
 
+const deleteImage = async (public_id) => {
+
+  try {
+
+    // delete thumbnail first
+    await cloudinary.api.delete_resources([public_id]);
+  } catch (err) {
+
+    logger.error("Thumbnail deletion attempt failed. :", err)
+  }
+}
+
 
 module.exports = {
   singleUpload,
-  getUrl
+  getUrl,
+  deleteImage
 }
