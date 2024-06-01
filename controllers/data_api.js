@@ -57,6 +57,34 @@ dataAPIRouter.get('/:data/all', async (request, response) => {
   }
 })
 
+// get total counts
+dataAPIRouter.get('/:data/count', async (request, response) => {
+
+  try {
+
+    // select database base on data param
+    const dataDB = dataType[request.params.data];
+
+    // get total count of docs in the collection
+    const count = await dataDB.countDocuments({});
+
+    // log
+    logger.info(`Fetched total count for ${request.params.data}.`);
+
+    // send data back
+    response.json({
+      count
+    });
+
+  } catch (err) {
+
+    // log errors
+    logger.error("Fetching total count failed: ", err);
+    response.status(500).json({ error: 'Internal Server Error' });
+  }
+
+})
+
 
 // fetch an event by id
 dataAPIRouter.get('/:data/:dataId', async (request, response) => {
@@ -88,7 +116,7 @@ dataAPIRouter.get('/:data/:dataId', async (request, response) => {
 
 
 // // fetch events by conditions : type, count, sortby and sort order
-dataAPIRouter.get('/:data/info/:count/:sortBy/:sortOrder', async (request, response) => {
+dataAPIRouter.get('/:data/info/:count/:sortBy/:sortOrder/:skipCount', async (request, response) => {
   try {
 
     // select database base on data param
@@ -98,9 +126,10 @@ dataAPIRouter.get('/:data/info/:count/:sortBy/:sortOrder', async (request, respo
     const count = request.params.count;
     const sortBy = request.params.sortBy;
     const sortOrder = request.params.sortOrder;
+    const skipCount = request.params.skipCount * count;
 
     // fetch data using the conditions
-    const data = await dataDB.find({}).limit(count).sort([[sortBy, sortOrder]]).collation({ locale: 'en', strength: 2 });
+    const data = await dataDB.find({}).skip(skipCount).limit(count).sort([[sortBy, sortOrder]]).collation({ locale: 'en', strength: 2 });
 
     // log
     logger.info(`Fetched a specific data by conditions ( ${request.params.data} ).`)
@@ -115,6 +144,8 @@ dataAPIRouter.get('/:data/info/:count/:sortBy/:sortOrder', async (request, respo
     response.status(500).json({ error: 'Internal Server Error' });
   }
 })
+
+
 
 
 // post an event
