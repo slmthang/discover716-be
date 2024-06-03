@@ -38,7 +38,7 @@ app.use(middleware.requestLogger);
 // @routes
 
 // root
-app.use('/', (request, response) => response.send('<h1>Welcome to Discover716 API</h1>'));
+app.get('/', (request, response) => response.send('<h1>Welcome to Discover716 API</h1>'));
 // api data
 app.use('/api', dataAPIRouter);
 // auth
