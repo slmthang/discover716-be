@@ -14,19 +14,6 @@ const app = express();
 // // use cors
 app.use(cors());
 
-// app.use(function(req, res, next) {
-//   // res.header("Access-Control-Allow-Origin", "*");
-//   const allowedOrigins = ['https://discover716-fe.onrender.com', 'https://discover716-be.onrender.com'];
-//   const origin = req.headers.origin;
-//   if (allowedOrigins.includes(origin)) {
-//        res.setHeader('Access-Control-Allow-Origin', origin);
-//   }
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-//   res.header("Access-Control-Allow-credentials", true);
-//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, UPDATE");
-//   next();
-// });
-
 // Add Access Control Allow Origin headers
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -49,7 +36,10 @@ connectDB();
 // requestLogger
 app.use(middleware.requestLogger);
 // @routes
-// api
+
+// root
+app.use('/', (request, response) => response.send('<h1>Welcome to Discover716 API</h1>'));
+// api data
 app.use('/api', dataAPIRouter);
 // auth
 app.use('/auth', authRouter);
